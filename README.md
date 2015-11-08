@@ -13,7 +13,7 @@ vagrant ssh
 ```
 Далее устанавливаем mysql
 ```
-sudo apt-get install mysql
+sudo apt-get install mysql-server
 ```
 Придумайте пароль администратора(root) базы
 ````
