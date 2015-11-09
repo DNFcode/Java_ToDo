@@ -1,15 +1,26 @@
 package java.database;
 
-import java.util.List;
+import java.util.*;
 
 public class User{
     private String username;
     private String email;
     private String password;
     private Boolean isVerified;
-    private long dateCreate;
+    private Boolean isAdmin;
+    private Long dateCreate;
 
-    private List<TaskUsers> taskUsersList;
+    private List<Friends> friendList;
+    private List<ListUsers> listUsersList;
+
+    public static User getUserByName(String username){
+        return new User("unknown", "email@email.com", "");
+    }
+
+    public static List<User> getAllUsers(){
+        Vector<User> users = new Vector<User>();
+        return users;
+    }
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -17,10 +28,23 @@ public class User{
         this.password = password;
         this.isVerified = Boolean.FALSE;
         this.dateCreate = System.currentTimeMillis();
+        this.isAdmin = Boolean.FALSE;
     }
 
-    public List<TaskUsers> getTaskUsersList() {
-        return taskUsersList;
+    public List<Friends> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<Friends> friendList) {
+        this.friendList = friendList;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public String getUsername() {
@@ -59,7 +83,15 @@ public class User{
         return dateCreate;
     }
 
-    public void setDateCreate(long dateCreate) {
+    public void setDateCreate(Long dateCreate) {
         this.dateCreate = dateCreate;
+    }
+
+    public List<ListUsers> getListUsersList() {
+        return listUsersList;
+    }
+
+    public void setListUsersList(List<ListUsers> listUsersList) {
+        this.listUsersList = listUsersList;
     }
 }

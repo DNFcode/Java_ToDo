@@ -19,8 +19,16 @@ public class Friends {
         return currentUser;
     }
 
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
     public User getFriend() {
         return Friend;
+    }
+
+    public void setFriend(User friend) {
+        Friend = friend;
     }
 
     public String getUsername() {

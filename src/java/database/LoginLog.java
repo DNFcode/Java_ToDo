@@ -4,13 +4,23 @@ public class LoginLog{
     private String username;
     private Long loginTime;
     private Long logoutTime;
+    private String ip;
 
     private User user;
 
-    public LoginLog(String username, Long loginTime, Long logoutTime) {
+    public LoginLog(String username, Long loginTime, Long logoutTime, String ip) {
         this.username = username;
         this.loginTime = loginTime;
         this.logoutTime = logoutTime;
+        this.ip = ip;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public String getUsername() {
@@ -39,5 +49,9 @@ public class LoginLog{
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
