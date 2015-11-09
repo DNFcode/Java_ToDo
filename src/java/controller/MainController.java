@@ -9,6 +9,7 @@ public class MainController {
     //GET
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void mainPage(){
-        return "start_page"
+        return "start_page";
     }
+
 }
