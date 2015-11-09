@@ -2,10 +2,6 @@ package java.controller;
 
 import java.database.User;
 
-/**
- *
- * @author maks1
- */
 public class UsersController {
     private void sendVerifyEmail(User user){
 
