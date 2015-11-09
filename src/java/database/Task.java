@@ -5,30 +5,30 @@ import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
 import java.util.List;
+import java.util.Vector;
 
 public class Task extends DBClass {
     private Long taskId;
-    private Long dateCreate;
-    private Long dateChange;
+    private Long listId;
     private String taskText;
-    private String taskTitle;
-    private Boolean isArchived;
+    private Boolean isDone;
     private Integer priority;
 
-    private List<TaskUsers> taskUsersList;
+    private TaskList list;
 
-    public Task(Long taskId, String taskText, String taskTitle, Integer priority) {
-        this.taskId = taskId;
-        this.dateCreate = System.currentTimeMillis();
-        this.dateChange = System.currentTimeMillis();
+    public Task(Long listId, String taskText, Integer priority) {
+        this.listId = listId;
         this.taskText = taskText;
-        this.taskTitle = taskTitle;
-        this.isArchived = Boolean.FALSE;
+        this.isDone = Boolean.FALSE;
         this.priority = priority;
     }
 
-    public List<TaskUsers> getTaskUsersList() {
-        return taskUsersList;
+    public TaskList getList() {
+        return list;
+    }
+
+    public void setList(TaskList list) {
+        this.list = list;
     }
 
     public Long getTaskId() {
@@ -39,20 +39,12 @@ public class Task extends DBClass {
         this.taskId = taskId;
     }
 
-    public Long getDateCreate() {
-        return dateCreate;
+    public Long getListId() {
+        return listId;
     }
 
-    public void setDateCreate(Long dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Long getDateChange() {
-        return dateChange;
-    }
-
-    public void setDateChange(Long dateChange) {
-        this.dateChange = dateChange;
+    public void setListId(Long listId) {
+        this.listId = listId;
     }
 
     public String getTaskText() {
@@ -63,20 +55,12 @@ public class Task extends DBClass {
         this.taskText = taskText;
     }
 
-    public String getTaskTitle() {
-        return taskTitle;
+    public Boolean getIsDone() {
+        return isDone;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        this.taskTitle = taskTitle;
-    }
-
-    public Boolean getIsArchived() {
-        return isArchived;
-    }
-
-    public void setIsArchived(Boolean isArchived) {
-        this.isArchived = isArchived;
+    public void setIsDone(Boolean isDone) {
+        this.isDone = isDone;
     }
 
     public Integer getPriority() {
@@ -86,4 +70,5 @@ public class Task extends DBClass {
     public void setPriority(Integer priority) {
         this.priority = priority;
     }
+
 }
