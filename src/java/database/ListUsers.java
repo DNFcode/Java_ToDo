@@ -1,33 +1,41 @@
 package java.database;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "TASKLIST_USERS")
 public class ListUsers {
-    private Long listId;
-    private String username;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "LIST_USERS_ID")
+    private Long listUsersId;
+    @Column(name = "MAY_EDIT", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean mayEdit;
 
-    private User user;
-    private TaskList list;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User userListTasks;
+    @ManyToOne
+    @JoinColumn(name = "LIST_ID")
+    private TaskList taskListUsers;
 
-    public ListUsers(Long listId, String username, Boolean mayEdit) {
-        this.listId = listId;
-        this.username = username;
+    public ListUsers() {}
+    public ListUsers(User userListTasks, TaskList taskListUsers, Boolean mayEdit) {
+        this.userListTasks = userListTasks;
+        this.taskListUsers = taskListUsers;
         this.mayEdit = mayEdit;
     }
 
-    public Long getListId() {
-        return listId;
+    public Long getListUsersId() {
+        return listUsersId;
     }
 
-    public void setListId(Long listId) {
-        this.listId = listId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setListUsersId(Long listUsersId) {
+       this.listUsersId = listUsersId;
     }
 
     public Boolean getMayEdit() {
@@ -39,18 +47,18 @@ public class ListUsers {
     }
 
     public User getUser() {
-        return user;
+        return userListTasks;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User userListTasks) {
+        this.userListTasks = userListTasks;
     }
 
     public TaskList getList() {
-        return list;
+        return taskListUsers;
     }
 
-    public void setList(TaskList list) {
-        this.list = list;
+    public void setList(TaskList taskListUsers) {
+        this.taskListUsers = taskListUsers;
     }
 }

@@ -1,49 +1,54 @@
 package java.database;
 
+import javax.persistence.*;
 /**
  * Created by dnf on 08.11.15.
  */
+@Entity
+@Table(name = "FRIENDS")
 public class Friends {
-    private String username;
-    private String friendName;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "FRIENDS_ID")
+    private Long friendsId;
+    /*
+    @Column(name = "FRIEND_ID")
+    private Long friendId;
+    */
+    @ManyToOne
+    @JoinColumn(name = "FRIEND_REQUESTER")
+    private User friendRequester;
+    @ManyToOne
+    @JoinColumn(name = "FRIEND_RECEIVER")
+    private User friendReceiver;
 
-    private User currentUser;
-    private User Friend;
-
-    public Friends(String username, String friendName) {
-        this.username = username;
-        this.friendName = friendName;
+    public Friends() {}
+    public Friends(User friendRequester, User friendReceiver) {
+        this.friendReceiver = friendReceiver;
+        this.friendRequester = friendRequester;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public void setFriendsId(Long friendsId) {
+        this.friendsId = friendsId;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public Long getFriendsId() {
+        return friendsId;
     }
 
-    public User getFriend() {
-        return Friend;
+    public void setFriendReceiver(User friendReceiver) {
+        this.friendReceiver = friendReceiver;
     }
 
-    public void setFriend(User friend) {
-        Friend = friend;
+    public User getFriendReceiver() {
+        return friendReceiver;
     }
 
-    public String getUsername() {
-        return username;
+    public void setFriendRequester(User friendRequester){
+        this.friendRequester = friendRequester;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFriendName() {
-        return friendName;
-    }
-
-    public void setFriendName(String friendName) {
-        this.friendName = friendName;
+    public User getFriendRequester() {
+        return friendRequester;
     }
 }

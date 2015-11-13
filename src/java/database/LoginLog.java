@@ -1,18 +1,39 @@
 package java.database;
 
-public class LoginLog{
-    private String username;
-    private Long loginTime;
-    private Long logoutTime;
-    private String ip;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+@Entity
+@Table(name = "LOGIN_LOG")
+public class LoginLog {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "LOGIN_ID")
+    private Long loginId;
+    @Column(name = "LOGIN_TIME")
+    private Long loginTime;
+    @Column(name = "LOGOUT_TIME")
+    private Long logoutTime;
+    @Column(name = "IP")
+    private String ip;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
     private User user;
 
-    public LoginLog(String username, Long loginTime, Long logoutTime, String ip) {
-        this.username = username;
+    public LoginLog() {}
+    public LoginLog(User user, Long loginTime, Long logoutTime, String ip) {
+        this.user = user;
         this.loginTime = loginTime;
         this.logoutTime = logoutTime;
         this.ip = ip;
+    }
+
+    public Long getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
     }
 
     public String getIp() {
@@ -21,14 +42,6 @@ public class LoginLog{
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public Long getLogoutTime() {

@@ -1,34 +1,48 @@
 package java.database;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
 import java.util.List;
 import java.util.Vector;
-
+@Entity
+@Table(name = "TASK")
 public class Task extends DBClass {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "TASK_ID")
     private Long taskId;
-    private Long listId;
+    @Column(name = "TASK_TEXT")
     private String taskText;
+    @Column(name = "IS_DONE", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isDone;
+    @Column(name = "PRIORITY")
     private Integer priority;
+    //taskList используестя в классе TaskList для указания mappedBy = "taskList"
+    //НЕ ТРОГАТЬ
+    @ManyToOne
+    @JoinColumn(name = "LIST_ID")
+    private TaskList taskList;
 
-    private TaskList list;
-
-    public Task(Long listId, String taskText, Integer priority) {
-        this.listId = listId;
+    public Task() {}
+    public Task(String taskText, Integer priority) {
         this.taskText = taskText;
         this.isDone = Boolean.FALSE;
         this.priority = priority;
     }
 
     public TaskList getList() {
-        return list;
+        return taskList;
     }
 
-    public void setList(TaskList list) {
-        this.list = list;
+    public void setList(TaskList taskList) {
+        this.taskList = taskList;
     }
 
     public Long getTaskId() {
@@ -37,14 +51,6 @@ public class Task extends DBClass {
 
     public void setTaskId(Long taskId) {
         this.taskId = taskId;
-    }
-
-    public Long getListId() {
-        return listId;
-    }
-
-    public void setListId(Long listId) {
-        this.listId = listId;
     }
 
     public String getTaskText() {

@@ -1,27 +1,61 @@
 package java.database;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.util.*;
-
+@Entity
+@Table(name = "USER")
 public class User{
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "USER_ID")
+    private Long userId;
+    @Column(name = "USER_NAME")
     private String username;
+    @Column(name = "EMAIL")
     private String email;
+    @Column(name = "PASSWORD")
     private String password;
+    @Column(name = "IS_VERIFIED", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isVerified;
+    @Column(name = "IS_ADMIN", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isAdmin;
+    @Column(name = "DATE_CREATE")
     private Long dateCreate;
+    //Не трогать
+    @OneToMany(mappedBy = "user")
+    private List<LoginLog> loginList;
+    //Не трогать
+    @OneToMany(mappedBy = "friendRequester")
+    private List<Friends> requestedFriends;
+    @OneToMany(mappedBy = "friendReceiver")
+    private List<Friends> receivedFriends;
+    //WTF ?
+    /*
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "LIST_USERS",
+    joinColumns = @JoinColumn(name = "LIST_ID"),
+    inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    */
 
-    private List<Friends> friendList;
-    private List<ListUsers> listUsersList;
+    @OneToMany(mappedBy = "userListTasks")
+    private List<ListUsers> taskList;
+
+    @OneToMany(mappedBy = "author")
+    private List<TaskList> authoredTasks;
 
     public static User getUserByName(String username){
         return new User("unknown", "email@email.com", "");
     }
-
-    public static List<User> getAllUsers(){
+    public static List<User> getAllUsers() {
         Vector<User> users = new Vector<User>();
         return users;
     }
-
+    public User() {}
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -30,13 +64,28 @@ public class User{
         this.dateCreate = System.currentTimeMillis();
         this.isAdmin = Boolean.FALSE;
     }
-
-    public List<Friends> getFriendList() {
-        return friendList;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setFriendList(List<Friends> friendList) {
-        this.friendList = friendList;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public List<Friends> getRequestedFriends() {
+        return requestedFriends;
+    }
+
+    public void setRequestedFriends(List<Friends> requestedFriends) {
+        this.requestedFriends = requestedFriends;
+    }
+
+    public List<Friends> getReceivedFriends() {
+        return receivedFriends;
+    }
+
+    public void setReceivedFriends(List<Friends> receivedFriends) {
+        this.receivedFriends = receivedFriends;
     }
 
     public Boolean getIsAdmin() {
@@ -79,7 +128,7 @@ public class User{
         this.isVerified = isVerified;
     }
 
-    public long getDateCreate() {
+    public Long getDateCreate() {
         return dateCreate;
     }
 
@@ -87,11 +136,19 @@ public class User{
         this.dateCreate = dateCreate;
     }
 
-    public List<ListUsers> getListUsersList() {
-        return listUsersList;
+    public List<ListUsers> getTaskList() {
+        return taskList;
     }
 
-    public void setListUsersList(List<ListUsers> listUsersList) {
-        this.listUsersList = listUsersList;
+    public void setTaskList(List<ListUsers> taskList) {
+        this.taskList = taskList;
+    }
+
+    public List<LoginLog> getLoginList() {
+        return loginList;
+    }
+
+    public void setLoginList(List<LoginLog> loginList) {
+        this.loginList = loginList;
     }
 }
