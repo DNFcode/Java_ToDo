@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd"
+    xmlns:task="http://www.springframework.org/schema/task">
+
+    <bean id="dataBaseQueries" class="ru.ifmo.mandrain.database.DBQueries">
+    </bean>
+    <bean id="rssWoker" class="ru.ifmo.mandrain.sheduler.RssWoker">
+        <constructor-arg>
+            <value>0000-00-00T01:00:00</value>
+        </constructor-arg>
+        <property name="dataBaseQueries">
+            <ref bean="dataBaseQueries"/>
+        </property>
+    </bean>
+    
+    <task:scheduler id="tasksScheduler" pool-size="10"/>
+    
+    <task:scheduled-tasks scheduler="tasksScheduler">
+         <task:scheduled ref="rssWoker" method="updateRss" fixed-delay="10000"/> 
+    </task:scheduled-tasks>
+    
+     <task:annotation-driven scheduler="tasksScheduler"/> 
+
+</beans>
