@@ -1,5 +1,6 @@
 package java.controller;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,10 +20,9 @@ public class UsersController {
 
     //POST
     @RequestMapping(value = "/newuser", method = RequestMethod.POST)
-    public @ResponceBody Response newUser(@RequestParams Gson data){
-        User user = new Gson().fromJson(data.toString(), User.class);
+    public @ResponceBody String newUser(@RequestBody User user){
         String result;
-        if(/* œ–Œ¬≈– ¿ Õ¿ ”Õ» ¿À‹ÕŒ—“‹ */) {
+        if(/* –†–µ–≥–∏—Å—Ç—Ä–∞—Ü–∏—è –ø—Ä–æ—à–ª–∞ */) {
             DBClass.save(user);
             result = "New user created";
             model.addAttribute("result",result)

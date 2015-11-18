@@ -1,26 +1,28 @@
 package java.controller;
 
 import com.google.gson.Gson;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 public class AuthController {
-
+    private String result;
     //POST
     @RequestMapping(value = "/log_in", method = RequestMethod.POST)
-    public @ResponseBody Response authentication(@RequestParam Gson data){
-        String result;
-        User user = new Gson().fromJson(data.toString(), User.class);
-        if(/* ИЩЕМ ЮЗЕРА В БД */ && /* ПРОВЕРЯЕМ ПАСС ? */){
-            /* УСТАНОВКА СЕССИИ */
-            model.addAtribute("username",user.getUsername());
+    @SessionAttributes("user")
+    public @ResponseBody String authentication(User user){
+        if(/* РќР°С…РѕРґРёРј РІ Р±Р°Р·Рµ Рё РїСЂРѕРІРµСЂСЏРµРј РїР°СЃСЃ */){
+            /* РќР°С€Р»Рё Рё СЃРѕРІРїР°Р» */
+            /* Р”РѕР»Р¶РЅР° СѓСЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ СЃРµСЃСЃРёСЏ(?) */
+            model.addObject("user",user);
             return "start_page";
         }
         else {
-            result = "Такого пользователя нет либо направильный логин/пароль";
+            result = "РўР°РєРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РёР»Рё РЅРµРїСЂР°РІРёР»СЊРЅС‹Р№ Р»РѕРіРёРЅ/РїР°СЂРѕР»СЊ";
             model.addAtribute("result",result);
             return "start_page";
         }

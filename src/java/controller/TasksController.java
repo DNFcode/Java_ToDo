@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -15,17 +16,17 @@ public class TasksController {
     private List<Task> cachedTasks;
     //POST
     @RequestMapping(value = "/addTask", method = RequestMethod.POST)
-    public void newTask(@RequestParam Gson data){
-        Task task = new Gson().fromJson(data.toString(), Task.class);
-        /* рср врн-рн ухрпне */
+    public @ResponseBody Task newTask(@ResponseBody Task task){
+        TaskList ts = new TaskList();
+        task.setListId(ts.getListId());
     }
     //POST
-    public void editTask(){
-
+    public void editTask(@RequestBody Task task){
+        DB.save(task);
     }
     //POST
     public void deleteTask(){
 
     }
-    @
+
 }
