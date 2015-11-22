@@ -12,19 +12,21 @@ import org.hibernate.boot.registry.*;
 import org.hibernate.cfg.Configuration;
 
 public class DBClass implements Serializable {
-    private static SessionFactory factory;
+
     public static void main(String args[]) {
-        System.out.println("AAAAAdsda");
-        try {
-            factory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        /*
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
         tx.commit();
-        session.close();
-
+        session.close();*/
+        UserDAO userDao = new UserDAO();
+        User user = new User();
+        user.setDateCreate(System.currentTimeMillis());
+        user.setEmail("redishko@gmail.com");
+        user.setIsAdmin(true);
+        user.setIsVerified(true);
+        user.setUsername("redishko");
+        user.setPassword("789pp369");
+        userDao.saveUser(user);
     }
 }
