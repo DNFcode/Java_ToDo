@@ -29,6 +29,25 @@ CREATE USER "todo"@"localhost" IDENTIFIED BY "password";
 GRANT ALL PRIVILEGES ON todo_develop.* TO "todo"@"localhost";
 FLUSH PRIVILEGES;
 ```
+В VagrantFile добавляем строку:
+```
+config.vm.network "forwarded_port", guest: 3306, host: 3307
+```
+Даем доступ к mysql-server на гостевой(vagrant) с хоста:
+В гостевой машине с mysql-server изменяем конфиг,
+Комментируем строки
+```
+skip-external-locking
+bind-address
+```
+Входим с под root в mysql
+```
+mysql -u root -p
+GRANT ALL PRIVILEGES ON todo_develop.* TO "todo"@"10.0.2.2" IDENTIFIED BY '4Ttm2x';
+FLUSH PRIVILEGES;
+
+```
+
 Выйдите из mysql shall (Ctrl+C)
 Заливаем .sql файл с таблицами
 ```
