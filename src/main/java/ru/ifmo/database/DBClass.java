@@ -25,5 +25,6 @@ public class DBClass implements Serializable {
         Transaction tx = session.beginTransaction();
         tx.commit();
         session.close();
+
     }
 }
