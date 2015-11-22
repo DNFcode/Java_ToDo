@@ -29,7 +29,8 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">validate</property>
         <property name="current_session_context_class">thread</property>
-
+        <!--Boolean тест -->
+        <property name="hibernate.query.substitutions">true 1, false 0</property>
 
         <!-- Names the annotated entity class -->
         <mapping class="ru.ifmo.database.Friends"/>

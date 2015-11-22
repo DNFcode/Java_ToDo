@@ -12,7 +12,7 @@ public class TaskListUsers {
     @Column(name = "LIST_USERS_ID")
     private Long listUsersId;
     @Column(name = "MAY_EDIT", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean mayEdit;
 
     @ManyToOne

@@ -14,7 +14,7 @@ public class TaskList {
     @Column(name = "TITLE")
     private String title;
     @Column(name = "IS_PUBLIC", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isPublic;
     @Column(name = "DATE_CREATE")
     private Long dateCreate;

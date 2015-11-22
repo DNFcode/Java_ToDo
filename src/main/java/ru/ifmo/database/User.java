@@ -18,10 +18,10 @@ public class User{
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "IS_VERIFIED", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isVerified;
     @Column(name = "IS_ADMIN", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isAdmin;
     @Column(name = "DATE_CREATE")
     private Long dateCreate;
