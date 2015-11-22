@@ -1,6 +1,5 @@
-package java.database;
+package database;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -30,32 +29,24 @@ public class User{
     @OneToMany(mappedBy = "user")
     private List<LoginLog> loginList;
     //Не трогать
-    @OneToMany(mappedBy = "friendRequester")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "friendRequester")
     private List<Friends> requestedFriends;
-    @OneToMany(mappedBy = "friendReceiver")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "friendReceiver")
     private List<Friends> receivedFriends;
-    //WTF ?
-    /*
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "LIST_USERS",
-    joinColumns = @JoinColumn(name = "LIST_ID"),
-    inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-    */
-
-    @OneToMany(mappedBy = "userListTasks")
-    private List<ListUsers> taskList;
-
-    @OneToMany(mappedBy = "author")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "userListTasks")
+    private List<TaskListUsers> taskList;
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "author")
     private List<TaskList> authoredTasks;
-
+    /*
     public static User getUserByName(String username){
         return new User("unknown", "email@email.com", "");
     }
     public static List<User> getAllUsers() {
         Vector<User> users = new Vector<User>();
         return users;
-    }
+    }*/
     public User() {}
+    /*
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -63,7 +54,7 @@ public class User{
         this.isVerified = Boolean.FALSE;
         this.dateCreate = System.currentTimeMillis();
         this.isAdmin = Boolean.FALSE;
-    }
+    }*/
     public Long getUserId() {
         return userId;
     }
@@ -136,11 +127,11 @@ public class User{
         this.dateCreate = dateCreate;
     }
 
-    public List<ListUsers> getTaskList() {
+    public List<TaskListUsers> getTaskList() {
         return taskList;
     }
 
-    public void setTaskList(List<ListUsers> taskList) {
+    public void setTaskList(List<TaskListUsers> taskList) {
         this.taskList = taskList;
     }
 

@@ -1,10 +1,8 @@
-package java.database;
+package database;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.*;
 @Entity
 @Table(name = "TASK_LIST")
@@ -25,7 +23,7 @@ public class TaskList {
     //mappedBy refers to the property name of the association on the owner side.
     //Т.е. mappedBy = объекту private TaskList list в классе Task.
     //НЕ ТРОГАТЬ
-    @OneToMany(mappedBy = "taskList")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "taskList")
     private List<Task> listTask;
 
     /*
@@ -33,28 +31,28 @@ public class TaskList {
     @JoinTable(name = "LIST_USERS",
     joinColumns = @JoinColumn(name = "USER_ID"),
     inverseJoinColumns = @JoinColumn(name = "LIST_ID"))*/
-    @OneToMany(mappedBy = "taskListUsers")
-    private List<ListUsers> usersTaskList;
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "taskListUsers")
+    private List<TaskListUsers> usersTaskList;
 
     @ManyToOne
     @JoinColumn(name = "AUTHOR")
     private User author;
 
-
+    /*
     public static List<TaskList> getPublicLists(){
         Vector<TaskList> lists = new Vector<TaskList>();
         return lists;
     }
 
-    public static List<TaskList> getAuthorsLists(Long authorId){
+    public static List<TaskList> getAuthorsLists(Long authorId) {
         Vector<TaskList> lists = new Vector<TaskList>();
         return lists;
     }
-    /*
     public static TaskList getListById(Long listId){
         return new TaskList("list", "author");
     }*/
     public TaskList() {}
+    /*
     public TaskList(String title, User author) {
         this.title = title;
         this.isPublic = Boolean.FALSE;
@@ -62,12 +60,13 @@ public class TaskList {
         this.dateCreate = System.currentTimeMillis();
         this.dateChange = System.currentTimeMillis();
     }
+    */
 
-    public List<ListUsers> getUsers() {
+    public List<TaskListUsers> getUsers() {
         return usersTaskList;
     }
 
-    public void setUsers(List<ListUsers> usersTaskList) {
+    public void setUsers(List<TaskListUsers> usersTaskList) {
         this.usersTaskList = usersTaskList;
     }
 

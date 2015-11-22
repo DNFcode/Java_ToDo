@@ -1,4 +1,4 @@
-package java.database;
+package ru.ifmo.database;
 
 import javax.persistence.*;
 /**
@@ -23,10 +23,12 @@ public class Friends {
     private User friendReceiver;
 
     public Friends() {}
+    /*
     public Friends(User friendRequester, User friendReceiver) {
         this.friendReceiver = friendReceiver;
         this.friendRequester = friendRequester;
     }
+    */
 
     public void setFriendsId(Long friendsId) {
         this.friendsId = friendsId;

@@ -1,6 +1,6 @@
-package java.controller;
+package controller;
 
-import java.database.User;
+import database.User;
 
 /**
  *

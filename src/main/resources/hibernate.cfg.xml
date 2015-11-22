@@ -27,14 +27,17 @@
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="current_session_context_class">thread</property>
+
 
         <!-- Names the annotated entity class -->
-        <mapping class="java.database.Friends"/>
-        <mapping class="java.database.User"/>
-        <mapping class="java.database.ListUsers"/>
-        <mapping class="java.database.LoginLog"/>
-        <mapping class="java.database.Task"/>
-        <mapping class="java.database.TaskList"/>
+        <mapping class="ru.ifmo.database.Friends"/>
+        <mapping class="ru.ifmo.database.User"/>
+        <mapping class="ru.ifmo.database.TaskListUsers"/>
+        <mapping class="ru.ifmo.database.LoginLog"/>
+        <mapping class="ru.ifmo.database.Task"/>
+        <mapping class="ru.ifmo.database.TaskList"/>
     </session-factory>
 
 </hibernate-configuration>

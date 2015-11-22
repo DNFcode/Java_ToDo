@@ -1,13 +1,12 @@
-package java.database;
+package ru.ifmo.database;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "TASKLIST_USERS")
-public class ListUsers {
+public class TaskListUsers {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "LIST_USERS_ID")
@@ -23,12 +22,14 @@ public class ListUsers {
     @JoinColumn(name = "LIST_ID")
     private TaskList taskListUsers;
 
-    public ListUsers() {}
-    public ListUsers(User userListTasks, TaskList taskListUsers, Boolean mayEdit) {
+    public TaskListUsers() {}
+    /*
+    public TaskListUsers(User userListTasks, TaskList taskListUsers, Boolean mayEdit) {
         this.userListTasks = userListTasks;
         this.taskListUsers = taskListUsers;
         this.mayEdit = mayEdit;
     }
+    */
 
     public Long getListUsersId() {
         return listUsersId;
