@@ -26,7 +26,7 @@ public class DBClass implements Serializable {
         user.setIsAdmin(true);
         user.setIsVerified(true);
         user.setUsername("redishko");
-        user.setPassword("789pp369");
+        user.setPassword("password");
         userDao.saveUser(user);
     }
 }
