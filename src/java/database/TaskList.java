@@ -1,33 +1,60 @@
 package java.database;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import java.util.List;
 import java.util.Vector;
-
+import javax.persistence.*;
+@Entity
+@Table(name = "TASK_LIST")
 public class TaskList {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "LIST_ID")
     private Long listId;
+    @Column(name = "TITLE")
     private String title;
+    @Column(name = "IS_PUBLIC", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isPublic;
-    private String author;
+    @Column(name = "DATE_CREATE")
     private Long dateCreate;
+    @Column(name = "DATE_CHANGE")
     private Long dateChange;
+    //mappedBy refers to the property name of the association on the owner side.
+    //Т.е. mappedBy = объекту private TaskList list в классе Task.
+    //НЕ ТРОГАТЬ
+    @OneToMany(mappedBy = "taskList")
+    private List<Task> listTask;
 
-    private List<Task> tasksList;
+    /*
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "LIST_USERS",
+    joinColumns = @JoinColumn(name = "USER_ID"),
+    inverseJoinColumns = @JoinColumn(name = "LIST_ID"))*/
+    @OneToMany(mappedBy = "taskListUsers")
+    private List<ListUsers> usersTaskList;
+
+    @ManyToOne
+    @JoinColumn(name = "AUTHOR")
+    private User author;
 
     public static List<TaskList> getPublicLists(){
         Vector<TaskList> lists = new Vector<TaskList>();
         return lists;
     }
 
-    public static List<TaskList> getAuthorsLists(String author){
+    public static List<TaskList> getAuthorsLists(Long authorId){
         Vector<TaskList> lists = new Vector<TaskList>();
         return lists;
     }
-
+    /*
     public static TaskList getListById(Long listId){
         return new TaskList("list", "author");
-    }
-
-    public TaskList(String title, String author) {
+    }*/
+    public TaskList() {}
+    public TaskList(String title, User author) {
         this.title = title;
         this.isPublic = Boolean.FALSE;
         this.author = author;
@@ -35,12 +62,16 @@ public class TaskList {
         this.dateChange = System.currentTimeMillis();
     }
 
-    public Long getListId() {
-        return listId;
+    public List<ListUsers> getUsers() {
+        return usersTaskList;
     }
 
-    public void setListId(Long listId) {
-        this.listId = listId;
+    public void setUsers(List<ListUsers> usersTaskList) {
+        this.usersTaskList = usersTaskList;
+    }
+
+    public Long getListId() {
+        return listId;
     }
 
     public String getTitle() {
@@ -59,11 +90,11 @@ public class TaskList {
         this.isPublic = isPublic;
     }
 
-    public String getAuthor() {
+    public User getAuthorId() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthorId(User author) {
         this.author = author;
     }
 
@@ -83,11 +114,11 @@ public class TaskList {
         this.dateChange = dateChange;
     }
 
-    public List<Task> getTasksList() {
-        return tasksList;
+    public List<Task> getListTask() {
+        return listTask;
     }
 
-    public void setTasksList(List<Task> tasksList) {
-        this.tasksList = tasksList;
+    public void setListTask(List<Task> listTask) {
+        this.listTask = listTask;
     }
 }
