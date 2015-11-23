@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+	<title>Mandrain</title>
+	<link>http://www.mandrain.ru</link>
+	<description>Последние обновления в списках задач</description>
+	<language>ru</language>
+<item>
+	<title>Test</title>
+	<description>Test</description>
+	<link>Test</link>
+	<guid>Test</guid>
+	<pubDate>Test</pubDate>
+</item>
+
+</channel>
+</rss>

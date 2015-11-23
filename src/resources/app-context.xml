@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd"
+    xmlns:task="http://www.springframework.org/schema/task">
+
+    <bean id="dataBaseQueries" class="nadja.sheduler.DBQueries">
+    </bean>
+    
+    <bean id="feed" class="nadja.sheduler.RssFeed">
+    </bean>
+    
+    <bean id="writer" class="nadja.sheduler.RssWriter">
+    </bean>
+    
+    <bean id="header" class="nadja.sheduler.RssHeader">
+    </bean>
+    
+    <bean id="entry" class="nadja.sheduler.RssEntry">
+    </bean>
+    
+    <bean id="rssWoker" class="nadja.sheduler.RssWoker">
+        <constructor-arg>
+            <value>5</value>
+        </constructor-arg>
+        <constructor-arg>
+            <value>/home/nadya/NetBeansProjects/sheduler/src/main/resources/mandrain.rss</value>
+        </constructor-arg>
+        <property name="dataBaseQueries">
+            <ref bean="dataBaseQueries"/>
+        </property>
+        <property name="feed">
+            <ref bean="feed"/>
+        </property>
+        <property name="writer">
+            <ref bean="writer"/>
+        </property>
+        <property name="header">
+            <ref bean="header"/>
+        </property>
+        <property name="entry">
+            <ref bean="entry"/>
+        </property>
+    </bean>  
+    
+    <task:scheduler id="tasksScheduler" pool-size="10"/>
+    
+    <task:scheduled-tasks scheduler="tasksScheduler">
+         <task:scheduled ref="rssWoker" method="updateRss" fixed-delay="1000"/> 
+    </task:scheduled-tasks>     
+
+</beans>
