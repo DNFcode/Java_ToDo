@@ -1,4 +1,4 @@
-package ru.ifmo.controller;
+package controller;
 /**
  *
  * @author maks1

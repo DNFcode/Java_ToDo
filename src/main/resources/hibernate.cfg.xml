@@ -33,13 +33,13 @@
         <property name="hibernate.query.substitutions">true 1, false 0</property>
 
         <!-- Names the annotated entity class -->
-        <mapping class="ru.ifmo.database.Friends"/>
-        <mapping class="ru.ifmo.database.User"/>
-        <mapping class="ru.ifmo.database.TaskListUsers"/>
-        <mapping class="ru.ifmo.database.LoginLog"/>
-        <mapping class="ru.ifmo.database.Task"/>
-        <mapping class="ru.ifmo.database.TaskList"/>
-        <mapping class="ru.ifmo.database.UserVerify"/>
+        <mapping class="database.Friends"/>
+        <mapping class="database.User"/>
+        <mapping class="database.TaskListUsers"/>
+        <mapping class="database.LoginLog"/>
+        <mapping class="database.Task"/>
+        <mapping class="database.TaskList"/>
+        <mapping class="database.UserVerify"/>
     </session-factory>
 
 </hibernate-configuration>

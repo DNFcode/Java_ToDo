@@ -1,15 +1,6 @@
-package ru.ifmo.database;
-
-import org.hibernate.Session;
+package database;
 
 import java.io.Serializable;
-
-import org.hibernate.SessionFactory;
-import org.hibernate.SessionFactory.*;
-import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.*;
-import org.hibernate.cfg.Configuration;
 
 public class DBClass implements Serializable {
 
@@ -43,6 +34,7 @@ public class DBClass implements Serializable {
         User user3 = ObjectsDAO.getUserByName("redishko");
         System.out.println(user3.getPassword());
         */
-        ObjectsDAO.setUserVer();
+        
+        //ObjectsDAO.setUserVer();
     }
 }

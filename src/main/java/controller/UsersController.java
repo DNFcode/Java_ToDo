@@ -1,6 +1,6 @@
-package ru.ifmo.controller;
+package controller;
 
-import ru.ifmo.database.User;
+import database.User;
 
 /**
  *

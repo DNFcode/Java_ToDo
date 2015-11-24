@@ -1,6 +1,6 @@
-package ru.ifmo.controller;
+package controller;
 
-import ru.ifmo.database.Task;
+import database.Task;
 import java.util.List;
 
 public class TasksController {

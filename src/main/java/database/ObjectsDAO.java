@@ -1,9 +1,8 @@
-package ru.ifmo.database;
+package database;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
-import ru.ifmo.database.HibernateUtil;
+
 /**
  * Created by nikolayemrikh on 22.11.15.
  */
@@ -80,7 +79,7 @@ public class ObjectsDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         User user = new User();
-        user.setUsername("jesusets");
+        user.setUsername("jesusets1");
         user.setPassword("iamjesus");
         user.setIsAdmin(true);
         user.setIsVerified(false);

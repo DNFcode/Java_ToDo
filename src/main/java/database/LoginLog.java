@@ -1,4 +1,4 @@
-package ru.ifmo.database;
+package database;
 
 import javax.persistence.*;
 @Entity
