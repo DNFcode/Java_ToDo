@@ -6,7 +6,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "FRIENDS")
-public class Friends {
+public class Friends extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "FRIENDS_ID")

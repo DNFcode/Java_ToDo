@@ -39,6 +39,7 @@
         <mapping class="ru.ifmo.database.LoginLog"/>
         <mapping class="ru.ifmo.database.Task"/>
         <mapping class="ru.ifmo.database.TaskList"/>
+        <mapping class="ru.ifmo.database.UserVerify"/>
     </session-factory>
 
 </hibernate-configuration>

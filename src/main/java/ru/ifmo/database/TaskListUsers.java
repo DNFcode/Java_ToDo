@@ -6,12 +6,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "TASKLIST_USERS")
-public class TaskListUsers {
+public class TaskListUsers extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "LIST_USERS_ID")
     private Long listUsersId;
-    @Column(name = "MAY_EDIT", nullable = false)
+    @Column(name = "MAY_EDIT")//, nullable = false
     @Type(type = "org.hibernate.type.BooleanType")
     private Boolean mayEdit;
 

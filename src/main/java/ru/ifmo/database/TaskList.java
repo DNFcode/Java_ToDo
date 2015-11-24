@@ -6,14 +6,14 @@ import java.util.List;
 import javax.persistence.*;
 @Entity
 @Table(name = "TASK_LIST")
-public class TaskList {
+public class TaskList extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "LIST_ID")
     private Long listId;
     @Column(name = "TITLE")
     private String title;
-    @Column(name = "IS_PUBLIC", nullable = false)
+    @Column(name = "IS_PUBLIC")//, nullable = false
     @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isPublic;
     @Column(name = "DATE_CREATE")

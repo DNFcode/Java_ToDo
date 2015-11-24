@@ -17,7 +17,7 @@ public class Task extends DBClass {
     private Long taskId;
     @Column(name = "TASK_TEXT")
     private String taskText;
-    @Column(name = "IS_DONE", nullable = false)
+    @Column(name = "IS_DONE")//, nullable = false
     @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isDone;
     @Column(name = "PRIORITY")

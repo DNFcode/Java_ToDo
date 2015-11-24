@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.*;
 @Entity
 @Table(name = "USER")
-public class User{
+public class User extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "USER_ID")
@@ -17,14 +17,20 @@ public class User{
     private String email;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "IS_VERIFIED", nullable = false)
+    @Column(name = "IS_VERIFIED", nullable = false, columnDefinition = "bit default false")
     @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isVerified;
-    @Column(name = "IS_ADMIN", nullable = false)
+    @Column(name = "IS_ADMIN", nullable = false, columnDefinition = "bit default false")
     @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isAdmin;
     @Column(name = "DATE_CREATE")
     private Long dateCreate;
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    private UserVerify userVerify;
+
     //Не трогать
     @OneToMany(mappedBy = "user")
     private List<LoginLog> loginList;
@@ -46,15 +52,7 @@ public class User{
         return users;
     }*/
     public User() {}
-    /*
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.isVerified = Boolean.FALSE;
-        this.dateCreate = System.currentTimeMillis();
-        this.isAdmin = Boolean.FALSE;
-    }*/
+
     public Long getUserId() {
         return userId;
     }
@@ -141,5 +139,37 @@ public class User{
 
     public void setLoginList(List<LoginLog> loginList) {
         this.loginList = loginList;
+    }
+
+    public List<TaskList> getAuthoredTasks() {
+        return authoredTasks;
+    }
+
+    public void setAuthoredTasks(List<TaskList> authoredTasks) {
+        this.authoredTasks = authoredTasks;
+    }
+
+    public UserVerify getUserVerify() {
+        return userVerify;
+    }
+
+    public Boolean getVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(Boolean verified) {
+        isVerified = verified;
+    }
+
+    public void setUserVerify(UserVerify userVerify) {
+        this.userVerify = userVerify;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }

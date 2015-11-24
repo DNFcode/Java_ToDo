@@ -3,7 +3,7 @@ package ru.ifmo.database;
 import javax.persistence.*;
 @Entity
 @Table(name = "LOGIN_LOG")
-public class LoginLog {
+public class LoginLog extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "LOGIN_ID")
