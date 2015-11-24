@@ -73,6 +73,7 @@ public class ObjectsDAO {
         }
         return user;
     }
+
     /*
     //Прост создаем запись с хэшем для нового пользователя в таблице user_verify
     public static void setUserVer() {

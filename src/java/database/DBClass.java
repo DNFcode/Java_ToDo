@@ -34,7 +34,7 @@ public class DBClass implements Serializable {
         User user3 = ObjectsDAO.getUserByName("redishko");
         System.out.println(user3.getPassword());
         */
-        
+
         //ObjectsDAO.setUserVer();
     }
 }
