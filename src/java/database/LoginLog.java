@@ -3,7 +3,8 @@ package database;
 import javax.persistence.*;
 @Entity
 @Table(name = "LOGIN_LOG")
-public class LoginLog extends ObjectsDAO {
+public class LoginLog extends ObjectsDAO
+{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "LOGIN_ID")

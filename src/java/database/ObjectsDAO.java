@@ -3,6 +3,8 @@ package database;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.List;
+
 /**
  * Created by nikolayemrikh on 22.11.15.
  */
@@ -11,10 +13,10 @@ public class ObjectsDAO {
     public static Long save(Object obj) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
-        Long userId = null;
+        Long objId = null;
         try {
             tx = session.beginTransaction();
-            userId = (Long) session.save(obj);
+            objId = (Long) session.save(obj);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -22,7 +24,7 @@ public class ObjectsDAO {
         } finally {
             session.close();
         }
-        return userId;
+        return objId;
     }
     public static void delete(Object obj) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -74,7 +76,7 @@ public class ObjectsDAO {
         return user;
     }
 
-    /*
+
     //Прост создаем запись с хэшем для нового пользователя в таблице user_verify
     public static void setUserVer() {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -88,7 +90,7 @@ public class ObjectsDAO {
 
         UserVerify userVerify = new UserVerify();
         userVerify.setUserId(user.getUserId());
-        userVerify.setHash("hui");
+        userVerify.setHash("123");
 
         user.setUserVerify(userVerify);
 
@@ -96,5 +98,55 @@ public class ObjectsDAO {
         tx.commit();
         session.close();
 
-    }*/
+    }
+    //Создаем запись в таблице login_log для пользователя и задаем login_time
+    //Находит юзера по id либо по username.
+    public static Long newLog(User user, String ip) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        if (user.getUserId() == null && user.getUsername() != null ) {
+            String username = user.getUsername();
+            Criteria userCriteria = session.createCriteria(User.class);
+            userCriteria.add(Restrictions.eq("username",username));
+            user = (User) userCriteria.uniqueResult();
+        }
+        LoginLog log = new LoginLog();
+        log.setLoginTime(System.currentTimeMillis());
+        log.setUser(user);
+        log.setIp(ip);
+        Long logId = (Long) session.save(log);
+        tx.commit();
+        session.close();
+        return logId;
+    }
+    //Добавляем logout_time для пользователя
+    public static void lastLog(LoginLog loginLog) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        Long logId = loginLog.getLoginId();
+
+        loginLog = (LoginLog) select(LoginLog.class, logId);
+        loginLog.setLogoutTime(System.currentTimeMillis());
+        session.save(loginLog);
+        tx.commit();
+        session.close();
+    }
+    //Достаем список списков задач(четко) определенного автора
+    public static void getAuthoredTasks(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        if (user.getUserId() == null && user.getUsername() != null ) {
+            String username = user.getUsername();
+            Criteria userCriteria = session.createCriteria(User.class);
+            userCriteria.add(Restrictions.eq("username",username));
+            user = (User) userCriteria.uniqueResult();
+        }
+        List<TaskList> authoredTasks = user.getAuthoredTasks();
+        TaskList taskList = authoredTasks.iterator().next();
+        User author = taskList.getAuthor();
+        String authorName = author.getUsername();
+        System.out.println(authorName);
+        tx.commit();
+        session.close();
+    }
 }

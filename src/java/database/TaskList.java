@@ -25,14 +25,18 @@ public class TaskList extends ObjectsDAO {
     //НЕ ТРОГАТЬ
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "taskList")
     private List<Task> listTask;
+    //Связь с user через таблицу tasklist_users(many to many)
+    @ManyToMany(
+            targetEntity=database.User.class,
+            cascade={CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name="TASKLIST_USERS",
+            joinColumns=@JoinColumn(name="LIST_ID"),
+            inverseJoinColumns=@JoinColumn(name="USER_ID")
+    )
+    private List<User> users;
 
-    /*
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "LIST_USERS",
-    joinColumns = @JoinColumn(name = "USER_ID"),
-    inverseJoinColumns = @JoinColumn(name = "LIST_ID"))*/
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "taskListUsers")
-    private List<TaskListUsers> usersTaskList;
 
     @ManyToOne
     @JoinColumn(name = "AUTHOR")
@@ -52,7 +56,7 @@ public class TaskList extends ObjectsDAO {
         return new TaskList("list", "author");
     }*/
     public TaskList() {}
-    /*
+
     public TaskList(String title, User author) {
         this.title = title;
         this.isPublic = Boolean.FALSE;
@@ -60,8 +64,7 @@ public class TaskList extends ObjectsDAO {
         this.dateCreate = System.currentTimeMillis();
         this.dateChange = System.currentTimeMillis();
     }
-    */
-
+    /*
     public List<TaskListUsers> getUsers() {
         return usersTaskList;
     }
@@ -69,7 +72,7 @@ public class TaskList extends ObjectsDAO {
     public void setUsers(List<TaskListUsers> usersTaskList) {
         this.usersTaskList = usersTaskList;
     }
-
+    */
     public Long getListId() {
         return listId;
     }
@@ -120,5 +123,33 @@ public class TaskList extends ObjectsDAO {
 
     public void setListTask(List<Task> listTask) {
         this.listTask = listTask;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public void setListId(Long listId) {
+        this.listId = listId;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public Boolean getPublic() {
+        return isPublic;
     }
 }

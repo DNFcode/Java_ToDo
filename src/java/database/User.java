@@ -39,10 +39,17 @@ public class User extends ObjectsDAO {
     private List<Friends> requestedFriends;
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "friendReceiver")
     private List<Friends> receivedFriends;
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "userListTasks")
-    private List<TaskListUsers> taskList;
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "author")
     private List<TaskList> authoredTasks;
+
+    //Связь с Task_list через таблицу tasklist_users(many to many)
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            mappedBy = "users",
+            targetEntity = TaskList.class
+    )
+    private List<TaskList> taskList;
+
     /*
     public static User getUserByName(String username){
         return new User("unknown", "email@email.com", "");
@@ -125,11 +132,11 @@ public class User extends ObjectsDAO {
         this.dateCreate = dateCreate;
     }
 
-    public List<TaskListUsers> getTaskList() {
+    public List<TaskList> getTaskList() {
         return taskList;
     }
 
-    public void setTaskList(List<TaskListUsers> taskList) {
+    public void setTaskList(List<TaskList> taskList) {
         this.taskList = taskList;
     }
 
