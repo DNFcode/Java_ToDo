@@ -18,12 +18,11 @@ public class MainClass {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                List<HashT> hasht = db.findAll();
+                List<HashT> hasht = ObjectsDAO.findAll();
                 Long time = System.currentTimeMillis();
                 for(HashT h: hasht){
                     if( h.getDateCreate()-time > 600000 ){
-                        /* Пока так */
-                        DB.delete(h);
+                        ObjectsDAO.delete(h);
                     }
                 }
             }

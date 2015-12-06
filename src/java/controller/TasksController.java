@@ -15,14 +15,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TasksController {
     private List<Task> cachedTasks;
     //POST
+    @RequestMapping(value = "/addTasList", method = RequestMethod.POST)
+    public @ResponseBody Long newTaskList(@ResponseBody TaskList taskList){
+        Long blablabla = ObjectsDAO.save(taskList);
+        return blablabla;
+    }
+
     @RequestMapping(value = "/addTask", method = RequestMethod.POST)
     public @ResponseBody Task newTask(@ResponseBody Task task){
-        TaskList ts = new TaskList();
-        task.setListId(ts.getListId());
+        ObjectsDAO.save(task);
+        return taks;
     }
+
     //POST
     public void editTask(@RequestBody Task task){
-        DB.save(task);
+
     }
     //POST
     public void deleteTask(){

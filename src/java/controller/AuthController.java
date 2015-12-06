@@ -14,10 +14,13 @@ public class AuthController {
     //POST
     @RequestMapping(value = "/log_in", method = RequestMethod.POST)
     @SessionAttributes("user")
-    public @ResponseBody String authentication(User user){
-        if(/* Находим в базе и проверяем пасс */){
+    public @ResponseBody String authentication(User user,HttpServletRequest request){
+        User forCheck = ObjectsDAO.getUserByName(user.getUsername());
+        if(forCheck.getPassword().equal(user.getPasswor())){
             /* Нашли и совпал */
             /* Должна установиться сессия(?) */
+            String ip = request.getRemoteAddr();
+            /* Создать объект и запихнуть в него id юзера с ip и датой  */
             model.addObject("user",user);
             return "start_page";
         }
