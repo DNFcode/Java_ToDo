@@ -1,13 +1,12 @@
-package java.database;
+package database;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.*;
 @Entity
 @Table(name = "USER")
-public class User{
+public class User extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "USER_ID")
@@ -18,48 +17,48 @@ public class User{
     private String email;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "IS_VERIFIED", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "IS_VERIFIED", nullable = false, columnDefinition = "bit default false")
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isVerified;
-    @Column(name = "IS_ADMIN", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "IS_ADMIN", nullable = false, columnDefinition = "bit default false")
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isAdmin;
     @Column(name = "DATE_CREATE")
     private Long dateCreate;
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    private UserVerify userVerify;
+
     //Не трогать
     @OneToMany(mappedBy = "user")
     private List<LoginLog> loginList;
     //Не трогать
-    @OneToMany(mappedBy = "friendRequester")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "friendRequester")
     private List<Friends> requestedFriends;
-    @OneToMany(mappedBy = "friendReceiver")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "friendReceiver")
     private List<Friends> receivedFriends;
-    //WTF ?
-    /*
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "LIST_USERS",
-    joinColumns = @JoinColumn(name = "LIST_ID"),
-    inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-    */
-
-    @OneToMany(mappedBy = "userListTasks")
-    private List<ListUsers> taskList;
-
-    @OneToMany(mappedBy = "author")
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy = "author")
     private List<TaskList> authoredTasks;
 
+    //Связь с Task_list через таблицу tasklist_users(many to many)
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            mappedBy = "users",
+            targetEntity = TaskList.class
+    )
+    private List<TaskList> taskList;
+
+    /*
     public static User getUserByName(String username){
         return new User("unknown", "email@email.com", "");
     }
     public static List<User> getAllUsers() {
         Vector<User> users = new Vector<User>();
         return users;
-    }
+    }*/
     public User() {}
-    public User(String username, String email, String password) {
-        this.dateCreate = System.currentTimeMillis();
-        this.isAdmin = Boolean.FALSE;
-    }
 
     public Long getUserId() {
         return userId;
@@ -133,11 +132,11 @@ public class User{
         this.dateCreate = dateCreate;
     }
 
-    public List<ListUsers> getTaskList() {
+    public List<TaskList> getTaskList() {
         return taskList;
     }
 
-    public void setTaskList(List<ListUsers> taskList) {
+    public void setTaskList(List<TaskList> taskList) {
         this.taskList = taskList;
     }
 
@@ -147,5 +146,37 @@ public class User{
 
     public void setLoginList(List<LoginLog> loginList) {
         this.loginList = loginList;
+    }
+
+    public List<TaskList> getAuthoredTasks() {
+        return authoredTasks;
+    }
+
+    public void setAuthoredTasks(List<TaskList> authoredTasks) {
+        this.authoredTasks = authoredTasks;
+    }
+
+    public UserVerify getUserVerify() {
+        return userVerify;
+    }
+
+    public Boolean getVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(Boolean verified) {
+        isVerified = verified;
+    }
+
+    public void setUserVerify(UserVerify userVerify) {
+        this.userVerify = userVerify;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }

@@ -27,14 +27,19 @@
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">validate</property>
+        <property name="current_session_context_class">thread</property>
+        <!--Boolean тест -->
+        <property name="hibernate.query.substitutions">true 1, false 0</property>
 
         <!-- Names the annotated entity class -->
-        <mapping class="java.database.Friends"/>
-        <mapping class="java.database.User"/>
-        <mapping class="java.database.ListUsers"/>
-        <mapping class="java.database.LoginLog"/>
-        <mapping class="java.database.Task"/>
-        <mapping class="java.database.TaskList"/>
+        <mapping class="database.Friends"/>
+        <mapping class="database.User"/>
+        <mapping class="database.TaskListUsers"/>
+        <mapping class="database.LoginLog"/>
+        <mapping class="database.Task"/>
+        <mapping class="database.TaskList"/>
+        <mapping class="database.UserVerify"/>
     </session-factory>
 
 </hibernate-configuration>

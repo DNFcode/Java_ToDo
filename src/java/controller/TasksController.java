@@ -1,6 +1,6 @@
-package java.controller;
+package controller;
 
-import java.database.Task;
+import database.Task;
 import java.util.List;
 
 import com.google.gson.Gson;

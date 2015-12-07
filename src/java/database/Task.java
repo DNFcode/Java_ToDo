@@ -1,6 +1,5 @@
-package java.database;
+package database;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -8,8 +7,7 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
-import java.util.List;
-import java.util.Vector;
+
 
 @Entity
 @Table(name = "TASK")
@@ -21,8 +19,8 @@ public class Task extends DBClass {
     private Long taskId;
     @Column(name = "TASK_TEXT")
     private String taskText;
-    @Column(name = "IS_DONE", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "IS_DONE")//, nullable = false
+    @Type(type = "org.hibernate.type.BooleanType")
     private Boolean isDone;
     @Column(name = "PRIORITY")
     private Integer priority;
@@ -33,11 +31,13 @@ public class Task extends DBClass {
     private TaskList taskList;
 
     public Task() {}
+    /*
     public Task(String taskText, Integer priority) {
         this.taskText = taskText;
         this.isDone = Boolean.FALSE;
         this.priority = priority;
     }
+    */
 
     public TaskList getList() {
         return taskList;

@@ -1,4 +1,4 @@
-package java.controller;
+package controller;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,12 +7,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import javax.mail.*;
 import java.util.Properties;
 
-import java.database.User;
 import java.lang.Exception;
+import database.User;
 
 @Controller
 public class UsersController {
-
 
     private void sendVerifyEmail(User user){
         final String username = "login ot gugla";

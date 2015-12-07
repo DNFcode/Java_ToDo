@@ -1,4 +1,4 @@
-package java.database;
+package database;
 
 import javax.persistence.*;
 /**
@@ -6,7 +6,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "FRIENDS")
-public class Friends {
+public class Friends extends ObjectsDAO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "FRIENDS_ID")
@@ -23,10 +23,12 @@ public class Friends {
     private User friendReceiver;
 
     public Friends() {}
+    /*
     public Friends(User friendRequester, User friendReceiver) {
         this.friendReceiver = friendReceiver;
         this.friendRequester = friendRequester;
     }
+    */
 
     public void setFriendsId(Long friendsId) {
         this.friendsId = friendsId;

@@ -1,11 +1,10 @@
-package java.database;
-
-import org.hibernate.annotations.GenericGenerator;
+package database;
 
 import javax.persistence.*;
 @Entity
 @Table(name = "LOGIN_LOG")
-public class LoginLog {
+public class LoginLog extends ObjectsDAO
+{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "LOGIN_ID")
@@ -21,13 +20,14 @@ public class LoginLog {
     private User user;
 
     public LoginLog() {}
+    /*
     public LoginLog(User user, Long loginTime, Long logoutTime, String ip) {
         this.user = user;
         this.loginTime = loginTime;
         this.logoutTime = logoutTime;
         this.ip = ip;
     }
-
+    */
     public Long getLoginId() {
         return loginId;
     }
