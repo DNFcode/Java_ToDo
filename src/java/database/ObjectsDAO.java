@@ -56,6 +56,20 @@ public class ObjectsDAO {
         }
         return selected;
     }
+    public static void update(Object obj) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.update(obj);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
     public static User getUserByName(String name) {
         User user = new User();
         user.setUsername(name);
