@@ -3,13 +3,15 @@ package controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class MainController {
     //GET
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public void mainPage(){
-        return "start_page";
+    public ModelAndView mainPage(){
+        return new ModelAndView("start_page");
     }
 
 }

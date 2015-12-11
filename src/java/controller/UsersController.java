@@ -1,16 +1,22 @@
 package controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import database.ObjectsDAO;
+import database.User;
+import database.UserVerify;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 import java.lang.Exception;
-import database.User;
 
-@Controller
+@RestController
 public class UsersController {
 
     private void sendVerifyEmail(User user){
@@ -54,40 +60,46 @@ public class UsersController {
 
     //POST
     @RequestMapping(value = "/newuser", method = RequestMethod.POST)
-    public @ResponceBody String newUser(@RequestBody User user){
+    public ResponseEntity newUser(@RequestBody User user){
         String result;
         try {
+            System.out.println(user.getUsername());
+            user.setAdmin(false);
+            user.setIsVerified(false);
+            user.setDateCreate(System.currentTimeMillis());
             Long suchwow = ObjectsDAO.save(user);
-            model.addAttribute("result",suchwow)
-            return "start_page";
+            /* Генерация hash */
+            String hash = "hash";
+            UserVerify uf = new UserVerify();
+            uf.setHash(hash);
+            uf.setUserId(suchwow);
+            ObjectsDAO.save(uf);
+            //sendVerifyEmail(user);
+            return new ResponseEntity(HttpStatus.OK);
         }
         catch(Exception e) {
-            String result = "Oops"
-            model.addAttribute("result",result)
-            return "registration";
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
     }
 
     //GET
-    @RequestMapping(value = , method = RequestMethod.GET)
-    public void verifyUser(@RequestParam(value="hash") String hash){
+    @RequestMapping(value = "/uf", method = RequestMethod.GET)
+    public ModelAndView verifyUser(@RequestParam(value = "hash") String hash, Model model){
         try {
-            HashT hash = DB.find(/* Ищем бд по has */);
-            User user = DB.find(hash.getId()); /* Ищем юзера по id из has */
-            user.setIsVerified(true);
-            Long userID = ObjectsDAO.save(user); /* Сохранили юзера */
-            ObjectsDAO.delete(userID); /* Снесли запись с хэшом по id юзера */
-            Model model = new Model();
+            //UserVerify userHash = ObjectsDAO.select(hash);
+            //User user = ObjectsDAO.select(userHash.getUserId()); /* Ищем юзера по id из has */
+            //user.setIsVerified(true);
+            //ObjectsDAO.update(user); /* Сохранили юзера */
+            //ObjectsDAO.delete(userHash); /* Снесли запись с хэшом по id юзера */
             String result = "GJ";
             model.addAttribute("result",result);
-            return "start_page"
+            return new ModelAndView("start_page");
         }
         catch (Exception ex){
-            Model model = new Model();
             String result = "Ошибка при попытке подтверждения";
             model.addAttribute("result",result);
-            return "start_page"
+            return new ModelAndView("start_page");
         }
     }
     //POST

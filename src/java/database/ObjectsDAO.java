@@ -5,9 +5,6 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
-/**
- * Created by nikolayemrikh on 22.11.15.
- */
 public class ObjectsDAO {
 
     public static Long save(Object obj) {

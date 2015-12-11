@@ -2,9 +2,6 @@ package database;
 
 import javax.persistence.*;
 
-/**
- * Created by nikolayemrikh on 23.11.15.
- */
 @Entity
 @Table(name = "USER_VERIFY")
 public class UserVerify {
