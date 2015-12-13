@@ -36,6 +36,36 @@ max_tasks = 3;
 max_visible_task_length = 28;
 
 $(document).ready(function(){
+
+    $('.task-container .task-item').each(function(){
+        if($(this).find('.tasks-hidden .tasks .task').length == 0){
+            all_tasks = $(this).find('.tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
+            all_tasks.find('div').attr('contenteditable', 'false');
+
+            short_tasks(all_tasks);
+
+            tasks = $(this).find('> .tasks');
+            tasks.html(all_tasks);
+
+            if($(this).find('.tasks-hidden .tasks-done .task:nth-child(4)').length != 0){
+                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
+            }
+        }else{
+            all_tasks = $(this).find('.tasks-hidden .tasks .task:nth-child(-n+' + max_tasks + ')').clone();
+            all_tasks.find('div').attr('contenteditable', 'false');
+
+            short_tasks(all_tasks);
+
+            tasks = $(this).find('> .tasks');
+            tasks.html(all_tasks);
+
+            if($(this).find('.tasks-hidden .tasks .task:nth-child(4)').length != 0){
+                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
+            }
+        }
+    });
+
+
     //принимает на вход массив тасков и укорачивает в них .task-descr
     function short_tasks(tasks){
         all_tasks.find('div').each(function(){
