@@ -490,10 +490,33 @@ body {
     cursor: pointer;
 }
 
-.edit-window .task-descr:focus {
-    border: 1px solid rgba(0,0,0,0.25);
-    border-right: none;
-    border-left: none;
+body .delete-icon{
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 8px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.edit-window .task:hover .delete-icon{
+	display: block;
+}
+
+.edit-window .task-descr:focus + .delete-icon{
+	display: block;
+}
+
+.edit-window .task:hover .task-descr{
+	border: 1px solid rgba(0,0,0,0.1);
+	border-right: none;
+	border-left: none;
+}
+
+.edit-window .task .task-descr:focus {
+	border: 1px solid rgba(0,0,0,0.25);
+	border-right: none;
+	border-left: none;
 }
 
 .author-and-icons{
