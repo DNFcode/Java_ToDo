@@ -33,8 +33,60 @@ html = {
 };
 
 max_tasks = 3;
+max_visible_task_length = 28;
 
 $(document).ready(function(){
+    //принимает на вход массив тасков и укорачивает в них .task-descr
+    function short_tasks(tasks){
+        all_tasks.find('div').each(function(){
+            if($(this).text().length > max_visible_task_length) {
+                $(this).text($(this).text().slice(0, max_visible_task_length) + "...");
+            }
+        });
+    }
+
+    function show_visible_tasks(){
+        if($('.task-container .task-item.active .tasks-hidden .tasks .task').length == 0){
+            //Первые три таска из task-hidden tasks-done
+            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
+            all_tasks.find('div').attr('contenteditable', 'false');
+
+            //Ограничение длины строки таска
+            short_tasks(all_tasks);
+
+            tasks = $('.task-container .task-item.active > .tasks');
+            tasks.html(all_tasks);
+
+            //Если тасков больше, чем 3, то добавляются точечки после них
+            if($('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(4)').length != 0){
+                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
+            }
+        } else{
+            //Первые три таска из task-hidden tasks
+            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(-n+' + max_tasks + ')').clone();
+            all_tasks.find('div').attr('contenteditable', 'false');
+
+            //Ограничение длины строки таска
+            short_tasks(all_tasks);
+
+            tasks = $('.task-container .task-item.active > .tasks');
+            tasks.html(all_tasks);
+
+            //Если тасков больше, чем 3, то добавляются точечки после них
+            if($('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(4)').length != 0){
+                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
+            }
+        }
+    }
+
+    function refresh_active(){
+        var taskDescr = $(".task-item.active .tasks-hidden .tasks");
+        taskDescr.html($(".edit-container .tasks").html());
+
+        var taskDone = $(".task-item.active .tasks-hidden .tasks-done");
+        taskDone.html($(".edit-container .tasks-done").html());
+    }
+
     //Переключение пунктов меню
     $('.menu-list a').click(function(){
         var number = $(this).index();
@@ -72,31 +124,7 @@ $(document).ready(function(){
         var taskDescr = $(".task-item.active .tasks-hidden .tasks");
         taskDescr.html($(this).html());
 
-        if($('.task-container .task-item.active .tasks-hidden .tasks .task').length == 0){
-            //Первые три таска из task-hidden tasks-done
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        } else{
-            //Первые три таска из task-hidden tasks
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        }
+        show_visible_tasks();
     });
 
     //Очистка полей ввода при нажатии на кнопку Create
@@ -130,37 +158,9 @@ $(document).ready(function(){
     $(".edit-container").on("click", ".delete-icon", function(){
         $(this).parent().remove();
 
-        var taskDescr = $(".task-item.active .tasks-hidden .tasks");
-        taskDescr.html($(".edit-container .tasks").html());
+        refresh_active()
 
-        var taskDone = $(".task-item.active .tasks-hidden .tasks-done");
-        taskDone.html($(".edit-container .tasks-done").html());
-
-        if($('.task-container .task-item.active .tasks-hidden .tasks .task').length == 0){
-            //Первые три таска из task-hidden tasks-done
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        } else{
-            //Первые три таска из task-hidden tasks
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        }
+        show_visible_tasks()
     });
 
     //Выполненные таски
@@ -171,37 +171,9 @@ $(document).ready(function(){
         task_done = $(this).parent();
         $('.edit-container .tasks-done').append(task_done);
 
-        var taskDescr = $(".task-item.active .tasks-hidden .tasks");
-        taskDescr.html($(".edit-container .tasks").html());
+        refresh_active()
 
-        var taskDone = $(".task-item.active .tasks-hidden .tasks-done");
-        taskDone.html($(".edit-container .tasks-done").html());
-
-        if($('.task-container .task-item.active .tasks-hidden .tasks .task').length == 0){
-            //Первые три таска из task-hidden tasks-done
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        } else{
-            //Первые три таска из task-hidden tasks
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        }
+        show_visible_tasks();
     });
 
     //Убрать таск из выполненных
@@ -212,36 +184,8 @@ $(document).ready(function(){
         task_done = $(this).parent();
         $('.edit-container .tasks').append(task_done);
 
-        var taskDescr = $(".task-item.active .tasks-hidden .tasks");
-        taskDescr.html($(".edit-container .tasks").html());
+        refresh_active()
 
-        var taskDone = $(".task-item.active .tasks-hidden .tasks-done");
-        taskDone.html($(".edit-container .tasks-done").html());
-
-        if($('.task-container .task-item.active .tasks-hidden .tasks .task').length == 0){
-            //Первые три таска из task-hidden tasks-done
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks-done .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        } else{
-            //Первые три таска из task-hidden tasks
-            all_tasks = $('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(-n+' + max_tasks + ')').clone();
-            all_tasks.find('div').attr('contenteditable', 'false');
-
-            tasks = $('.task-container .task-item.active > .tasks');
-            tasks.html(all_tasks);
-
-            //Если тасков больше, чем 3, то добавляются точечки после них
-            if($('.task-container .task-item.active .tasks-hidden .tasks .task:nth-child(4)').length != 0){
-                tasks.append('<i class="big-task fa fa-ellipsis-h"></i>');
-            }
-        }
+        show_visible_tasks();
     });
 });
