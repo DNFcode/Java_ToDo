@@ -24,9 +24,7 @@ html = {
             '<div class="author-and-icons">'+
                 '<div class="task-author"></div>'+
                 '<div class="task-block">'+
-                    '<a class="icon task-done" href="#"></a>'+
                     '<a class="icon task-remove" href="#"></a>'+
-                    '<div class="icon task-important"></div>'+
                 '</div>'+
             '</div>'+
         '</div>'
@@ -163,11 +161,17 @@ $(document).ready(function(){
         $(".edit-container .tasks-done").html("");
         $(".edit-container .tasks").html("");
 
+        if(($(".task-item.active .tasks").html() == "") && ($(".task-item.active .tasks-hidden .tasks-done").html() == "")){
+            $(".task-item.active").remove();
+        }
+
         $(".task-container").prepend(html.new_task);
         $(".task-item.active").removeClass("active");
         $(".task-container .task-item:first-child").addClass("active");
 
         $(".task-item:first-child .task-title").text("Название списка");
+
+        $(".task-item:first-child .author-and-icons .task-author").text($(".user-block .username").text());
     });
 
     //Добавление новых пунктов в таски
@@ -218,4 +222,4 @@ $(document).ready(function(){
 
         show_visible_tasks();
     });
-});
+})
