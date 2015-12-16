@@ -5,6 +5,7 @@ import java.util.List;
 import database.ObjectsDAO;
 import database.Task;
 import database.TaskList;
+import database.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class TasksController {
     private List<Task> cachedTasks;
     //POST
-    @RequestMapping(value = "/addTaskList", method = RequestMethod.POST)
-    public @ResponseBody Long newTaskList(@RequestBody TaskList taskList){
-        Long blablabla = ObjectsDAO.save(taskList);
-        return blablabla;
+    @RequestMapping(value = "/addTaskList", method = RequestMethod.GET)
+    public @ResponseBody Long newTaskList(User user){
+        TaskList list = new TaskList("", user);
+        Long listId = ObjectsDAO.save(list);
+
+        return listId;
     }
 
     @RequestMapping(value = "/addTask", method = RequestMethod.POST)
