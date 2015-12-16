@@ -12,6 +12,80 @@ body {
 }
 
 /*Никита не умеет без своего былокода :( извините :( */
+.sign-in-popup.show{
+	display: flex;
+}
+
+.sign-in-popup{
+	display: none;
+	position: absolute;
+	z-index: 10;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	/*display: flex;*/
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.sign-in-popup form{
+	/*display: table;*/
+	margin: auto;
+	width: 400px;
+	/*height: 200px;*/
+	background-color: white;
+	border: 1px solid rgba(0,0,0,0.25);
+	box-sizing: border-box;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+.sign-in-popup input{
+	width: 232px;
+	border-radius: 5px;
+	padding: 5px;
+	/* display: block; */
+	border: 1px solid rgba(0,0,0,0.25);
+	outline: none;
+}
+
+.sign-in-popup input.valid{
+	border-color: #7cff70;
+}
+
+.sign-in-popup input.invalid{
+	border-color: #ff585d;
+}
+
+.sign-in-popup button{
+	margin-top: 10px;
+	width: 330px;
+	margin-left: 10px;
+	border: none;
+	padding: 5px;
+	border-radius: 5px;
+	background-color: #ffd15c;
+	color: #4A4A4A;
+}
+
+.sign-in-popup input, label{
+	display: table-cell;
+}
+
+.sign-in-popup label{
+	text-align: right;
+	width: 70px;
+}
+
+.sign-in-popup .table{
+	width: 100%;
+	display: table;
+	border-spacing: 10px;
+}
+
+.sign-in-popup .table div{
+	display: table-row;
+}
 
 .main-content{
 	display: flex;

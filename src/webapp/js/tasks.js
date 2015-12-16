@@ -35,6 +35,48 @@ max_visible_task_length = 28;
 
 $(document).ready(function(){
 
+    //Появление окна входа
+    $(".sign-in-show").click(function(){
+        $('.sign-in-popup').addClass("show");
+    });
+
+    $(".sign-in-popup").click(function(){
+        $(".sign-in-popup").removeClass("show");
+    });
+
+    $(".sign-in-popup form").click(function(event){
+        event.stopPropagation();
+    });
+
+    //Проверка паролей
+    $(".sign-in-popup input[type='password']").on("input", function(){
+        var inputs = $(".sign-in-popup input[type='password']");
+        var pass1 = $(inputs[0]).val();
+        var pass2 = $(inputs[1]).val();
+        if (pass1 != "" && pass2 != "") {
+            if (pass1 == pass2) {
+                inputs.removeClass("invalid");
+                inputs.addClass("valid");
+            }else{
+                inputs.removeClass("valid");
+                inputs.addClass("invalid");
+            }
+        }else{
+            inputs.removeClass("valid");
+            inputs.removeClass("invalid");
+        }
+    });
+
+    //Проверка перед отправкой
+    $(".sign-in-popup button").click(function(event){
+        var inputs = $(".sign-in-popup input[type='password']");
+        if (inputs.hasClass('valid')){
+            return
+        }
+
+        event.preventDefault();
+    });
+
     $('.task-container .task-item').each(function(){
         if($(this).find('.tasks-hidden .tasks .task').length == 0){
             all_tasks = $(this).find('.tasks-hidden .tasks-done .task:nth-child(-n+' + max_tasks + ')').clone();
