@@ -15,12 +15,12 @@ public class AuthController {
     private String result;
     //POST
     @RequestMapping(value = "/log_in", method = RequestMethod.POST)
-    public ModelAndView authentication(User user, HttpServletRequest request, RedirectAttributes redir){
+    public ModelAndView authentication(User user, HttpServletRequest request){
         User dbUser = ObjectsDAO.getUserByName(user.getUsername());
         ModelAndView model = new ModelAndView("redirect:/");
         if(dbUser.getPassword().equals(user.getPassword())){
             String ip = request.getRemoteAddr();
-            redir.addFlashAttribute("user", dbUser);
+            model.addObject("user", dbUser);
         }
         return model;
     }
