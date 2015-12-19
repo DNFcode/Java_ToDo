@@ -1,3 +1,7 @@
+<%@ page import="java.util.List" %>
+<%@ page import="database.Task" %>
+<%@ page import="database.TaskList" %>
+<%@ page import="database.ObjectsDAO" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -29,7 +33,7 @@
             <c:choose>
                 <c:when test="${user.getUsername() ne null}">
                     <div class="username">${user.getUsername()}</div>
-                    <a href="#">
+                    <a href="/log_out">
                         <i class="icon fa fa-sign-out"></i>
                     </a>
                 </c:when>
@@ -40,7 +44,7 @@
                         <i class="icon fa fa-sign-in"></i>
                     </a>
                     <div class="sign-in-popup">
-                        <form:form action="/log_in" modelAttribute="user">
+                        <form:form action="/log_in" modelAttribute="user" method="get">
                             <div class="table">
                                 <div>
                                     <label>Name:</label>
@@ -107,92 +111,58 @@
                 </div>
             </div>
             <div class="task-container">
+                <!--Обход всех списков-->
+                <c:forEach items="${lists}" var="list">
+                    <%
+                        List<Task> tasks = ObjectsDAO.getListTasks((TaskList) pageContext.getAttribute("list"));
+                        pageContext.setAttribute("tasks", tasks);
+                    %>
                 <div class="task-item">
-                    <div class="task-title">Список 1</div>
+                    <div class="task-title">${list.getTitle()}</div>
                     <div class="task-date">
                         11.11.2015
                     </div>
                     <!--Максимально 63 символа в таске для отображения -->
-                    <div class="tasks">
-                    </div>
+                    <div class="tasks"></div>
+
                     <div class="tasks-hidden">
+                        <!--Активные задания -->
                         <div class="tasks">
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
+                            <c:forEach items="${tasks}" var="task">
+                                <c:if test="${!task.getIsDone()}">
+                                    <div class="task" data-task-id="${task.getTaskId()}">
+                                        <i class="icon fa fa-square-o"></i>
 
-                                <div contenteditable="true" class="task-descr" >Первое задание</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
-
-                                <div contenteditable="true" class="task-descr" >Второе задание но уже куда длиннее. Ага. Оно реально длинное. Сам офигел когда увидел.</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
-
-                                <div contenteditable="true" class="task-descr" >Последнее задание</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
+                                        <div contenteditable="true" class="task-descr" >${task.getTaskText()}</div>
+                                        <i class="delete-icon fa fa-times-circle"></i>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
                         </div>
-                        <div class="tasks-done"></div>
+                        <!--Выполненные задания -->
+                        <div class="tasks-done">
+                            <c:forEach items="${tasks}" var="task">
+                                <c:if test="${task.getIsDone()}">
+                                    <div class="task" data-task-id="${task.getTaskId()}">
+                                        <i class="icon fa fa-check-square-o"></i>
+
+                                        <div contenteditable="true" class="task-descr" >${task.getTaskText()}</div>
+                                        <i class="delete-icon fa fa-times-circle"></i>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
                     </div>
+
                     <div class="author-and-icons">
-                        <div class="task-author">
-                            Mike
-                        </div>
+                        <div class="task-author">${list.getAuthor().getUsername()}</div>
                         <div class="task-block">
                             <a class="icon task-remove" href="#"></a>
                         </div>
                     </div>
+
                 </div>
-                <div class="task-item active">
-                    <div class="task-title">Список 2</div>
-                    <div class="task-date">
-                        11.11.2015
-                    </div>
-                    <!--Максимально 63 символа в таске для отображения -->
-                    <div class="tasks">
-                    </div>
-                    <div class="tasks-hidden">
-                        <div class="tasks">
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
-
-                                <div contenteditable="true" class="task-descr" >1 задание</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
-
-                                <div contenteditable="true" class="task-descr" >2 задание но уже куда длиннее. Ага. Оно реально длинное. Сам офигел когда увидел.</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
-                    
-                                <div contenteditable="true" class="task-descr" >3 задание но не последнее</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
-                            <div class="task">
-                                <i class="icon fa fa-square-o"></i>
-
-                                <div contenteditable="true" class="task-descr" >Последнее задание-задание</div>
-                                <i class="delete-icon fa fa-times-circle"></i>
-                            </div>
-                        </div>
-                        <div class="tasks-done"></div>
-                    </div>
-                    <div class="author-and-icons">
-                        <div class="task-author">
-                            Mike
-                        </div>
-                        <div class="task-block">
-                            <a class="icon task-remove" href="#"></a>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
 
@@ -208,48 +178,12 @@
             </div>
 
             <div class="edit-container">
-                <div class="tasks">
-                    <div class="task">
-                        <i class="icon fa fa-square-o"></i>
-
-                        <div contenteditable="true" class="task-descr" >Первое задание</div>
-                        <i class="delete-icon fa fa-times-circle"></i>
-                    </div>
-                    <div class="task">
-                        <i class="icon fa fa-square-o"></i>
-
-                        <div contenteditable="true" class="task-descr" >Второе задание но уже куда длиннее. Ага. Оно реально длинное. Сам офигел когда увидел.</div>
-                        <i class="delete-icon fa fa-times-circle"></i>
-                    </div>
-                    <div class="task">
-                        <i class="icon fa fa-square-o"></i>
-
-                        <div contenteditable="true" class="task-descr" >Третье задание</div>
-                        <i class="delete-icon fa fa-times-circle"></i>
-                    </div>
-                    <div class="task">
-                        <i class="icon fa fa-square-o"></i>
-
-                        <div contenteditable="true" class="task-descr" >Последнее задание-задание</div>
-                        <i class="delete-icon fa fa-times-circle"></i>
-                    </div>
-                </div>
+                <div class="tasks"></div>
                 <div class="add-task">
                     <i class="icon fa fa-plus"></i>
                     <span>Новое задание</span>
                 </div>
-                <div class="tasks-done">
-                    <div class="task">
-                        <i class="icon fa fa-check-square-o"></i>
-                        <div class="task-descr" >Готовое задание один</div>
-                        <i class="delete-icon fa fa-times-circle"></i>
-                    </div>
-                    <div class="task">
-                        <i class="icon fa fa-check-square-o"></i>
-                        <div class="task-descr" >Готовое задание два</div>
-                        <i class="delete-icon fa fa-times-circle"></i>
-                    </div>
-                </div>
+                <div class="tasks-done"></div>
             </div>
         </div>
     </div>

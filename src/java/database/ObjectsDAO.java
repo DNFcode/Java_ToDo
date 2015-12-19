@@ -4,6 +4,7 @@ import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+import java.util.Vector;
 
 public class ObjectsDAO {
 
@@ -159,5 +160,43 @@ public class ObjectsDAO {
         System.out.println(authorName);
         tx.commit();
         session.close();
+    }
+
+    //Получить списки заданий для юзера
+    public static List<TaskList> getUserLists(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        user = ObjectsDAO.getUserByName(user.getUsername());
+        session.update(user);
+
+        List<TaskList> lists = user.getTaskList();
+        session.flush();
+
+        tx.commit();
+        session.close();
+
+        return lists;
+    }
+
+    //Получить списки заданий для юзера
+    public static List<Task> getListTasks(TaskList list) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        List<Task> tasks = new Vector<Task>();
+        try {
+            Criteria userCriteria = session.createCriteria(TaskList.class);
+            userCriteria.add(Restrictions.eq("listId", list.getListId()));
+            list = (TaskList) userCriteria.uniqueResult();
+            session.update(list);
+            tasks = list.getListTask();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return tasks;
     }
 }
