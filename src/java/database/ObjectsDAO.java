@@ -3,9 +3,11 @@ package database;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Vector;
 
+@Transactional
 public class ObjectsDAO {
 
     public static Long save(Object obj) {
@@ -169,10 +171,9 @@ public class ObjectsDAO {
 
         user = ObjectsDAO.getUserByName(user.getUsername());
         session.update(user);
-
         List<TaskList> lists = user.getTaskList();
         session.flush();
-
+        Hibernate.initialize(lists);
         tx.commit();
         session.close();
 
@@ -190,6 +191,7 @@ public class ObjectsDAO {
             list = (TaskList) userCriteria.uniqueResult();
             session.update(list);
             tasks = list.getListTask();
+            Hibernate.initialize(tasks);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
